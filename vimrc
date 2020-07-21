@@ -35,7 +35,7 @@ let mapleader=" "
 " ===
 " 显示行号
 set number
-set relativenumber
+"set relativenumber
 set ruler
 "开启高亮光标行
 set cursorline
@@ -187,7 +187,7 @@ inoremap { {}<ESC>i
 
 
 " Compile function
-map te :call CompileRunGcc()<CR>
+map md  :call CompileRunGcc()<CR>
 func! CompileRunGcc()
   exec "w"
   if &filetype == 'c'
