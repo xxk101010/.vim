@@ -86,7 +86,7 @@ set splitbelow
 " ===
 set laststatus=2
 set autochdir
-set showcmd
+"set showcmd
 set formatoptions-=tc
 
 " Show command autocomplete
@@ -105,6 +105,7 @@ set smartcase
 " 自动缩进 智能缩进
 set autoindent
 set smartindent
+
 
 " === " === Restore Cursor Position
 " ===
@@ -141,10 +142,11 @@ noremap  <C-k>  5k
 noremap  <C-j>  5j
 noremap  <C-l>  5l
 
-map <LEADER>l  <C-w>l
-map <LEADER>k  <C-w>k
-map <LEADER>h  <C-w>h
-map <LEADER>j  <C-w>j
+noremap <LEADER>l  <C-w>l
+noremap <LEADER>k  <C-w>k
+noremap <LEADER>h  <C-w>h
+noremap <LEADER>j  <C-w>j
+
 
 map <up> :res +5<CR>
 map <down> :res -5<CR>
@@ -166,7 +168,7 @@ map tu :tabe<CR>
 map th :-tabnext<CR>
 map tl :+tabnext<CR>
 
-"map tb :vsp 
+"map tb :vsp
 
 " Place the two screens up and down
 noremap sh <C-w>t<C-w>K
@@ -177,9 +179,10 @@ noremap sv <C-w>t<C-w>H
 noremap srh <C-w>b<C-w>K
 noremap srv <C-w>b<C-w>H
 
-map <leader>f :FixWhitespace<cr>
-map <leader>a  ^
-map <leader>e  $
+noremap <leader>f :FixWhitespace<cr>
+noremap <leader>t :Tabularize/
+noremap <leader>a  ^
+noremap <leader>e  $
 
 inoremap ( ()<ESC>i
 inoremap [ []<ESC>i
@@ -227,21 +230,20 @@ Plug 'tomasr/molokai'
 Plug 'connorholyday/vim-snazzy'
 Plug 'mileszs/ack.vim'
 Plug 'dense-analysis/ale'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " File navigation
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ctrlpvim/ctrlp.vim', { 'on': 'CtrlP' }
 
-Plug 'git://github.com/petRUShka/vim-opencl.git'
-"Plug 'git://github.com/xolox/vim-misc.git'
-Plug 'Valloric/YouCompleteMe'
-Plug 'vim-scripts/taglist.vim'
-Plug 'vim-scripts/a.vim'
-Plug 'vim-scripts/DoxygenToolkit.vim'
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'vim-scripts/taglist.vim'
+Plug 'majutsushi/tagbar', { 'on': 'TagbarOpenAutoClose' }
+"Plug 'vim-scripts/DoxygenToolkit.vim'
 Plug 'tacahiroy/ctrlp-funky'
 Plug 'vim-scripts/echofunc.vim'
-Plug 'rhysd/vim-clang-format'
+"Plug 'rhysd/vim-clang-format'
 Plug 'godlygeek/tabular'
 Plug 'bronson/vim-trailing-whitespace'
 Plug 'plasticboy/vim-markdown'
@@ -251,6 +253,10 @@ Plug 'suan/vim-instant-markdown'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install_sync() }, 'for' :['markdown', 'vim-plug'] }
 Plug 'dhruvasagar/vim-table-mode', { 'on': 'TableModeToggle' }
 Plug 'vimwiki/vimwiki'
+
+" fzf plug
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -271,15 +277,12 @@ colorscheme molokai
 "color snazzy
 "let g:SnazzyTransparent = 1
 
-
-" Taglist
-let Tlist_Show_One_File=1    "只显示当前文件的tags
-let Tlist_WinWidth=30        "设置taglist宽度
-let Tlist_Exit_OnlyWindow=1  "tagList窗口是最后一个窗口，则退出Vim
-let Tlist_Use_Right_Window=1 "在Vim窗口右侧显示taglist窗口
 let NERDTreeShowHidden=1
-map  tt :NERDTreeToggle<CR>
-map  ts :Tlist<CR>
+" ===
+" === Taglist
+" ===
+map ta :TagbarOpenAutoClose<CR>
+map tt :NERDTreeToggle<CR>
 
 
 " 函数自动提示
@@ -287,55 +290,21 @@ set tags+=~/.vim/systags
 set tags+=./tags,tags;$HOME
 
 
-"自动注释
-let g:DoxygenToolkit_authorName="xtg"
-
-"YouCompleteMe
-let g:ycm_global_ycm_extra_conf='~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-"let g:ycm_global_ycm_extra_conf='~/.vim/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf=0
-set completeopt=longest,menu
-let g:ycm_key_list_previous_completion=['<Down>']
-let g:ycm_key_list_previous_completion=['<Up>']
-let g:ycm_semantic_triggers = {}
-let g:ycm_collect_identifiers_from_tags_files=1
-"let g:ycm_min_num_of_chars_for_completion=2
-let g:ycm_seed_identifiers_with_syntax=1
-let g:ycm_complete_in_comments=1
-let g:ycm_complete_in_strings=1
-let g:ycm_collect_identifiers_from_comments_and_strings=0
-let g:ycm_semantic_triggers.c = ['->', '.', ' ', '(', '[', '&']
-let g:ycm_show_diagnostics_ui = 0
-
+" nerd tree
 autocmd vimenter * NERDTree
-let g:NERDTreeWinSize = 35
-
-
 " 让NERDTree 光标在右边
 if argc()>0
 wincmd w
 autocmd VimEnter * wincmd w
 endif
 
-" Tlist_Refresh_Folds
-function! s:Tlist_Refresh_Folds()
-
-	if g:Tlist_Show_One_File
-		return
-	endif
-
-	let winnum = bufwinnr(g:TagList_title)
-	if winnum == -1
-		return
-	endif
-endfunction
-
 "
 " clang format
-let g:clang_format#command = "/usr/bin/clang-format"
+"let g:clang_format#command = "/usr/bin/clang-format"
 " clang-format -style=mozilla -dump-config > .clang-format
-map <F5> :ClangFormat<CR>
-map <F2> :!ctags -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C++ . <CR> <CR>
+"map <F5> :ClangFormat<CR>
+" ctags
+map <LEADER>cg :!ctags -R --c-kinds=+p --fields=+iaS --extra=+q --language-force=C++ . <CR> <CR>
 
 
 " ==
@@ -379,3 +348,22 @@ let g:mkdp_markdown_css = ''
 let g:mkdp_highlight_css = ''
 let g:mkdp_port = ''
 let g:mkdp_page_title = '「${name}」'
+
+
+
+" ===
+" === coc
+" ===
+" Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunctio
