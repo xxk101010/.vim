@@ -54,6 +54,7 @@ set expandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
+
 " 显示tab键
 set list
 " 现实tab符号
@@ -283,6 +284,7 @@ let NERDTreeShowHidden=1
 " ===
 map ta :TagbarOpenAutoClose<CR>
 map tt :NERDTreeToggle<CR>
+map tf :NERDTreeRefreshRoot<CR>
 
 
 " 函数自动提示
